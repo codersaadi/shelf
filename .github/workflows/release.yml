@@ -54,7 +54,7 @@ jobs:
 
       - name: Checksums
         run: |
-          find target/release/bundle -type f -print0 \
+          find target/release/bundle -type f \( -name '*.AppImage' -o -name '*.deb' -o -name '*.rpm' \) -print0 \
             | sort -z \
             | xargs -0 sha256sum > SHA256SUMS.txt
           cat SHA256SUMS.txt

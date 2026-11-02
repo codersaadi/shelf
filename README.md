@@ -104,6 +104,11 @@ Appearance → Reload**. The file is created on first launch.
 Design tokens and interaction rules live in `ui-ux.md`. Architecture, budgets
 and roadmap live in `product-plan.md`. Contributor commands live in `AGENTS.md`.
 
+## License
+
+Shelf is available under either the [MIT License](LICENSE-MIT) or the
+[Apache License 2.0](LICENSE-APACHE), at your option.
+
 ## Checks
 
 ```sh

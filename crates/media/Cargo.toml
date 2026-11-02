@@ -1,0 +1,22 @@
+[package]
+name = "shelf-media"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+shelf-core.workspace = true
+image.workspace = true
+md-5.workspace = true
+percent-encoding.workspace = true
+pulldown-cmark.workspace = true
+serde.workspace = true
+dirs.workspace = true
+
+[dev-dependencies]
+tempfile = "3"
+
+[lints]
+workspace = true

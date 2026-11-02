@@ -1,0 +1,79 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/core",
+    "crates/query",
+    "crates/watcher",
+    "crates/media",
+    "crates/platform",
+    "crates/cleanup",
+    "crates/cli",
+    "app/src-tauri",
+]
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.90"
+license = "UNLICENSED"
+authors = ["Shelf"]
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+unwrap_used = "warn"
+expect_used = "warn"
+panic = "warn"
+todo = "warn"
+dbg_macro = "deny"
+
+[workspace.dependencies]
+# core
+rusqlite = { version = "0.37", features = ["bundled"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+anyhow = "1"
+tracing = "0.1"
+chrono = { version = "0.4", features = ["serde"] }
+dirs = "6"
+
+# watcher / scan
+notify = "8"
+notify-debouncer-full = "0.7"
+jwalk = "0.9"
+
+# platform
+zbus = { version = "5", default-features = false, features = ["blocking-api", "async-io"] }
+trash = "5"
+xattr = "1"
+
+# media
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "webp", "gif"] }
+md-5 = "0.10"
+percent-encoding = "2.3"
+pulldown-cmark = { version = "0.13", default-features = false }
+
+# app / cli
+tauri = "2"
+tauri-build = "2"
+clap = { version = "4", features = ["derive"] }
+base64 = "0.22"
+sha2 = "0.10"
+
+# internal
+shelf-core = { path = "crates/core" }
+shelf-query = { path = "crates/query" }
+shelf-watcher = { path = "crates/watcher" }
+shelf-media = { path = "crates/media" }
+shelf-platform = { path = "crates/platform" }
+shelf-cleanup = { path = "crates/cleanup" }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "debuginfo"
+
+[profile.dev.package."*"]
+opt-level = 1

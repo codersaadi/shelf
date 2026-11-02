@@ -1,0 +1,27 @@
+[package]
+name = "shelf-cli"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "shelf"
+path = "src/main.rs"
+
+[dependencies]
+shelf-core.workspace = true
+shelf-query.workspace = true
+shelf-watcher.workspace = true
+shelf-platform.workspace = true
+shelf-media.workspace = true
+shelf-cleanup.workspace = true
+anyhow.workspace = true
+clap.workspace = true
+serde_json.workspace = true
+dirs.workspace = true
+chrono.workspace = true
+
+[lints]
+workspace = true

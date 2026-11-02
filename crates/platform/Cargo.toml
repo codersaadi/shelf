@@ -1,0 +1,23 @@
+[package]
+name = "shelf-platform"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+thiserror.workspace = true
+tracing.workspace = true
+trash.workspace = true
+xattr.workspace = true
+zbus.workspace = true
+dirs.workspace = true
+chrono.workspace = true
+percent-encoding.workspace = true
+
+[dev-dependencies]
+tempfile = "3"
+
+[lints]
+workspace = true

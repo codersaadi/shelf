@@ -10,7 +10,7 @@ license is in `app/ui/public/fonts/OFL.txt`.
 
 The dependency graph is pinned by `Cargo.lock` and `app/ui/pnpm-lock.yaml`.
 Their licenses should be reviewed with the dependency tooling before a release.
-Shelf itself is MIT OR Apache-2.0; dependency licenses remain their own.
+Shelf itself is Apache-2.0; dependency licenses remain their own.
 
 ## Icon artwork
 

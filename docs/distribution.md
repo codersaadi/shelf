@@ -46,6 +46,6 @@ across distributions. Snap and AUR packages are optional downstream work.
 
 ## Licensing and assets
 
-Shelf is dual-licensed MIT OR Apache-2.0. Bundled Inter fonts are OFL-1.1.
+Shelf is licensed under Apache-2.0. Bundled Inter fonts are OFL-1.1.
 The icon-set provenance is recorded as unresolved in `THIRD_PARTY_NOTICES.md`;
 resolve it before shipping binaries. Audit dependency licenses before release.

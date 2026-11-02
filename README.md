@@ -116,8 +116,7 @@ memory/performance measurement.
 
 ## License
 
-Shelf is available under either the [MIT License](LICENSE-MIT) or the
-[Apache License 2.0](LICENSE-APACHE), at your option.
+Shelf is licensed under the [Apache License 2.0](LICENSE-APACHE).
 
 ## Checks
 

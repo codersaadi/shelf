@@ -104,6 +104,16 @@ Appearance → Reload**. The file is created on first launch.
 Design tokens and interaction rules live in `ui-ux.md`. Architecture, budgets
 and roadmap live in `product-plan.md`. Contributor commands live in `AGENTS.md`.
 
+## Platform support
+
+Linux only today: GTK 3 + WebKitGTK 4.1, X11 or Wayland. Bundles are AppImage,
+`.deb` and `.rpm`; Flatpak is the next packaging target. Windows and macOS are
+not supported because the platform layer depends on freedesktop Trash, Linux
+xattrs and D-Bus.
+
+See `docs/distribution.md` for release channels and `docs/performance.md` for
+memory/performance measurement.
+
 ## License
 
 Shelf is available under either the [MIT License](LICENSE-MIT) or the

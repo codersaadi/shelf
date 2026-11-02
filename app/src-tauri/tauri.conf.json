@@ -29,6 +29,12 @@
   "bundle": {
     "active": true,
     "targets": ["deb", "rpm", "appimage"],
+    "category": "Utility",
+    "publisher": "Shelf contributors",
+    "copyright": "Copyright © 2026 Shelf contributors",
+    "shortDescription": "Local-first file intelligence for Linux",
+    "longDescription": "Shelf indexes local files, searches them with plain English, previews media, finds duplicates and cleans up safely. Nothing leaves the machine.",
+    "license": "MIT OR Apache-2.0",
     "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.png"]
   }
 }

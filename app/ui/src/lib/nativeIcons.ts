@@ -1,7 +1,7 @@
 import { ipc, type NativeIcon } from './ipc';
 
 const cache = new Map<string, Promise<NativeIcon | null>>();
-const MAX_CACHE = 200;
+const MAX_CACHE = 96;
 const MAX_ACTIVE = 2;
 let active = 0;
 const pending: Array<() => void> = [];

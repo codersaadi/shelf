@@ -20,12 +20,13 @@ pub fn find_duplicates(store: &Store) -> shelf_core::Result<Vec<DuplicateGroup>>
     }
 
     let mut by_hash: HashMap<(u64, String), Vec<FileMeta>> = HashMap::new();
+    let mut buffer = vec![0_u8; 1024 * 1024];
     for (size, files) in by_size {
         if files.len() < 2 {
             continue;
         }
         for file in files {
-            if let Some(hash) = hash_file(&file.path) {
+            if let Some(hash) = hash_file(&file.path, &mut buffer) {
                 by_hash.entry((size, hash)).or_default().push(file);
             }
         }
@@ -51,12 +52,11 @@ pub fn find_duplicates(store: &Store) -> shelf_core::Result<Vec<DuplicateGroup>>
     Ok(groups)
 }
 
-fn hash_file(path: &str) -> Option<String> {
+fn hash_file(path: &str, buffer: &mut [u8]) -> Option<String> {
     let mut file = std::fs::File::open(path).ok()?;
     let mut hasher = Sha256::new();
-    let mut buffer = vec![0_u8; 1024 * 1024];
     loop {
-        let read = file.read(&mut buffer).ok()?;
+        let read = file.read(buffer).ok()?;
         if read == 0 {
             break;
         }

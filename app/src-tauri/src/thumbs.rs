@@ -138,6 +138,10 @@ pub fn handle(
 }
 
 fn full_image(path: &Path) -> Option<Response<Cow<'static, [u8]>>> {
+    // A Quick Look should not pull an unbounded original into the WebView.
+    if std::fs::metadata(path).ok()?.len() > 64 * 1024 * 1024 {
+        return None;
+    }
     let bytes = std::fs::read(path).ok()?;
     let ext = path.extension()?.to_string_lossy().to_lowercase();
     let mime = match ext.as_str() {

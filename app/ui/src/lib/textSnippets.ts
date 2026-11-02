@@ -2,7 +2,7 @@ import { ipc, type FileMeta, type TextSnippet } from './ipc';
 import { extensionOf } from './extensions';
 
 const cache = new Map<string, Promise<TextSnippet | null>>();
-const MAX_CACHE = 400;
+const MAX_CACHE = 120;
 
 export function isTextPreviewable(file: FileMeta): boolean {
   if (file.name.startsWith('.')) return false;

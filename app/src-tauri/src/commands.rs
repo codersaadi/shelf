@@ -179,7 +179,7 @@ pub async fn native_icon(path: String) -> Option<NativeIcon> {
     use base64::Engine;
     let icon = shelf_platform::app_icon_path(Path::new(&path))?;
     let meta = std::fs::metadata(&icon).ok()?;
-    if meta.len() > 2 * 1024 * 1024 {
+    if meta.len() > 512 * 1024 {
         return None;
     }
     let bytes = std::fs::read(&icon).ok()?;

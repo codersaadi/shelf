@@ -48,10 +48,28 @@ fn adjacent_appimage_icon(file: &Path) -> Option<PathBuf> {
     if !root.is_dir() {
         return None;
     }
+    // A shared squashfs-root is often left by one AppImage and is not the
+    // artwork of every AppImage in the same folder. Only accept icons whose
+    // name matches this AppImage's stem.
+    let app = normalize(file.file_stem()?.to_string_lossy().as_ref());
+    if app.is_empty() {
+        return None;
+    }
+    let matches = |path: &Path| {
+        let Some(stem) = path.file_stem().map(|s| normalize(s.to_string_lossy().as_ref())) else {
+            return false;
+        };
+        !stem.is_empty() && (app.contains(&stem) || stem.contains(&app))
+    };
+
     let dir_icon = root.join(".DirIcon");
-    if dir_icon.is_file() {
+    if dir_icon.is_file()
+        && let Ok(target) = std::fs::canonicalize(&dir_icon)
+        && matches(&target)
+    {
         return Some(dir_icon);
     }
+
     let mut best: Option<PathBuf> = None;
     let mut stack = vec![(root, 0u8)];
     while let Some((dir, depth)) = stack.pop() {
@@ -63,7 +81,7 @@ fn adjacent_appimage_icon(file: &Path) -> Option<PathBuf> {
             let path = item.path();
             if path.is_dir() {
                 stack.push((path, depth + 1));
-            } else if path.extension().is_some_and(|e| e == "png" || e == "svg") {
+            } else if path.extension().is_some_and(|e| e == "png" || e == "svg") && matches(&path) {
                 let score =
                     if path.file_name().is_some_and(|n| n.to_string_lossy().contains("icon")) {
                         2
@@ -85,7 +103,9 @@ fn desktop_entry_for(file: &Path) -> Option<DesktopEntry> {
     }
 
     let file_name = file.file_name()?.to_string_lossy().to_lowercase();
-    let stem = normalize(file.file_stem()?.to_string_lossy().as_ref());
+    let raw_stem = file.file_stem()?.to_string_lossy().to_lowercase();
+    let stem = normalize(&raw_stem);
+    let base = normalize(raw_stem.split('-').next().unwrap_or(&raw_stem));
     let path = file.to_string_lossy();
     let mut best: Option<(i32, DesktopEntry)> = None;
 
@@ -101,6 +121,9 @@ fn desktop_entry_for(file: &Path) -> Option<DesktopEntry> {
         }
         if entry.id == stem {
             score = score.max(80);
+        }
+        if !base.is_empty() && (entry.id == base || normalize(&entry.name) == base) {
+            score = score.max(55);
         }
         if normalize(&entry.name) == stem {
             score = score.max(50);
@@ -204,10 +227,7 @@ fn resolve_icon(icon: &str) -> Option<PathBuf> {
         return Some(direct);
     }
 
-    let stem = Path::new(icon)
-        .file_stem()
-        .map(|s| s.to_string_lossy().to_string())
-        .unwrap_or_else(|| icon.to_string());
+    let stem = icon_stem(icon);
     let key = stem.to_lowercase();
 
     static CACHE: OnceLock<std::sync::Mutex<HashMap<String, Option<PathBuf>>>> = OnceLock::new();
@@ -223,6 +243,24 @@ fn resolve_icon(icon: &str) -> Option<PathBuf> {
         guard.insert(key, found.clone());
     }
     found
+}
+
+/// `org.gnome.Nautilus` is an icon name, not a filename; stripping its last
+/// dot segment would look for `org.gnome` and lose most system app icons.
+fn icon_stem(icon: &str) -> String {
+    let path = Path::new(icon);
+    let is_image = path.extension().is_some_and(|ext| {
+        ext.eq_ignore_ascii_case("png")
+            || ext.eq_ignore_ascii_case("svg")
+            || ext.eq_ignore_ascii_case("xpm")
+    });
+    if is_image {
+        path.file_stem()
+            .map(|s| s.to_string_lossy().to_string())
+            .unwrap_or_else(|| icon.to_string())
+    } else {
+        icon.to_string()
+    }
 }
 
 fn find_icon(stem: &str) -> Option<PathBuf> {
@@ -351,6 +389,13 @@ mod tests {
         assert_eq!(entry.name, "Demo App");
         assert!(entry.icon.ends_with("demo.png"));
         assert_eq!(entry.exec, "/usr/bin/demo %U");
+    }
+
+    #[test]
+    fn reverse_dns_icon_names_keep_their_dots() {
+        assert_eq!(icon_stem("org.gnome.Nautilus"), "org.gnome.Nautilus");
+        assert_eq!(icon_stem("/tmp/demo.png"), "demo");
+        assert_eq!(icon_stem("firefox"), "firefox");
     }
 
     #[test]

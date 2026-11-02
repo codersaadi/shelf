@@ -250,10 +250,26 @@ fn db_path() -> PathBuf {
 fn index_roots(home: &Path) -> Vec<PathBuf> {
     let from_env = std::env::var_os("SHELF_INDEX_ROOTS")
         .map(|v| std::env::split_paths(&v).filter(|p| p.exists()).collect::<Vec<_>>());
-    match from_env {
+    let mut roots = match from_env {
         Some(roots) if !roots.is_empty() => roots,
         _ => vec![home.to_path_buf()],
+    };
+    // Applications live outside the usual document roots. Include them even
+    // when SHELF_INDEX_ROOTS replaces the defaults.
+    for app_dir in [
+        home.join("Applications"),
+        home.join(".local/bin"),
+        home.join(".local/share/applications"),
+        PathBuf::from("/usr/local/share/applications"),
+        PathBuf::from("/usr/share/applications"),
+        PathBuf::from("/var/lib/flatpak/exports/share/applications"),
+        PathBuf::from("/var/lib/snapd/desktop/applications"),
+    ] {
+        if app_dir.is_dir() && !roots.iter().any(|root| app_dir.starts_with(root)) {
+            roots.push(app_dir);
+        }
     }
+    roots
 }
 
 fn start_watcher(

@@ -7,6 +7,18 @@ to the Trash safely.
 Rust workspace + Tauri 2 + Svelte 5. The core is UI-free: everything the UI can
 do is reachable from the `shelf` CLI.
 
+## Screenshots
+
+| Downloads | Videos |
+|---|---|
+| ![Downloads grid](docs/screenshots/downloads.jpg) | ![Video grid and context menu](docs/screenshots/videos.jpg) |
+
+| Music | Cleanup |
+|---|---|
+| ![Music grid](docs/screenshots/music.jpg) | ![Cleanup findings](docs/screenshots/cleanup.jpg) |
+
+![Settings](docs/screenshots/settings.jpg)
+
 ## Status
 
 v0.1 scaffold. Working today:

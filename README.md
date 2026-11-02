@@ -104,6 +104,13 @@ Appearance → Reload**. The file is created on first launch.
 Design tokens and interaction rules live in `ui-ux.md`. Architecture, budgets
 and roadmap live in `product-plan.md`. Contributor commands live in `AGENTS.md`.
 
+## Releases
+
+Draft bundles are built by the tag-driven release workflow. Downloads and
+checksums will be listed under
+[Releases](https://github.com/codersaadi/shelf/releases) once the first preview
+is published.
+
 ## Platform support
 
 Linux only today: GTK 3 + WebKitGTK 4.1, X11 or Wayland. Bundles are AppImage,

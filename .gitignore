@@ -21,3 +21,6 @@ coverage
 # local app/test artifacts
 .Trash-1000/
 .npm-cache/
+
+# original local screenshot exports
+/shelf-screenshots/

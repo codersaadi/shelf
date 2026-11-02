@@ -1,0 +1,26 @@
+name: Bug report
+description: Something in Shelf is broken or misleading.
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Include the exact view, query or action.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Linux distribution, desktop, WebKitGTK version and whether ffmpeg/pdftoppm are installed.

@@ -17,15 +17,25 @@ v0.1 scaffold. Working today:
   with explainable chips.
 - Grid and list views, virtualized, with a Quick Look overlay and inspector.
 - Native app icons from desktop entries/icon themes, semantic file-type fallbacks, image/video/PDF/audio-cover thumbnails, PDF first-page covers, Markdown/text card snippets, video duration, cached on disk.
-- Right-click menu with Open, Open with, Show in folder, Copy path and Move to Trash.
-- Move to Trash through the freedesktop spec, receipt-backed Undo, Show in Files,
-  Copy path, tags via `user.xdg.tags`.
-- Clean Up findings from the index (installers, old screenshots, large archives,
-  files over 1 GB) with a review page and dry run.
-- `shelf` CLI: `index`, `query`, `explain`, `stats`, `trash`.
+- Right-click menu with Open, Open with, Show in folder, Copy path, Rename,
+  Move/Copy to and Move to Trash; F2 renames.
+- Move to Trash through the freedesktop spec, receipt-backed Undo, permanent
+  purge, system Trash aggregation, Show in Files, terminal launch and tags via
+  `user.xdg.tags`.
+- Clean Up findings from the index with review, dry run, measured system cache
+  sizes and truncation notices.
+- Duplicate detection by size and SHA-256 content hash.
+- User-defined Locations, breadcrumbs, folder rails, folder context menus and
+  app-codebase detection.
+- Plain-English search with tag, extension, year and size-range filters.
+- Theme switching, text size, user theme file (`~/.config/shelf/theme.json`)
+  and local tracking controls.
+- `shelf` CLI: `index`, `query`, `explain`, `stats`, `trash`, `duplicates`,
+  `cleanup`, `receipts`, `undo`, `tags`, `open`, `apps`, `terminal`, `copy`,
+  `move`, `default`, `thumb`, `text`, `reveal`, `clear-activity`.
 
-Not yet: OCR, duplicate detection, thumbnails for video/PDF, daemon process
-split, packaging metadata. See `product-plan.md` for the version slots.
+Not yet: OCR/document-text search, tray icon, external daemon, timeline view
+and release packaging. See `product-plan.md` for the version slots.
 
 ## Requirements
 
@@ -68,6 +78,15 @@ default). Override it with `SHELF_DB`.
 | `SHELF_DB` | Index path, for a scratch database. |
 | `SHELF_INDEX_ROOTS` | Colon-separated roots to scan/watch instead of `$HOME`. |
 | `SHELF_AUTOINDEX=0` | Do not start the first-run scan automatically. |
+
+Application directories (`~/Applications`, XDG application directories,
+Flatpak and Snap exports) are added automatically even when
+`SHELF_INDEX_ROOTS` is set. Custom folders can be added under
+**Settings → Indexed folders** or as sidebar Locations.
+
+The theme is a single JSON file at `~/.config/shelf/theme.json`. It controls
+light/dark colors, fonts and shared radii; edit it and use **Settings →
+Appearance → Reload**. The file is created on first launch.
 
 ## Layout
 

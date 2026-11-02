@@ -1,0 +1,18 @@
+name: Feature request
+description: Propose a capability or interaction.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is hard or impossible today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should Shelf do, and what stays out of scope?
+    validations:
+      required: true
